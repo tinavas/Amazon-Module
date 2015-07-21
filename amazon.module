@@ -575,7 +575,22 @@ function amazon_item_clean_xml($xml) {
   // and ignore the rest for now.
   $supported_sizes = preg_split('/,/', AMAZON_IMAGE_SIZES);
   if (isset($xml->ImageSets->ImageSet)) {
-    foreach ((array) $xml->ImageSets->ImageSet as $key => $data) {
+    $ImageSets = (array) $xml->ImageSets;
+     if (is_array($ImageSets['ImageSet'])) {
+       if (isset($ImageSets['ImageSet'][0])) {
+         $ImageSets = $ImageSets['ImageSet'];
+         foreach ($ImageSets as $number => $set) {
+           $set = (array) $set;
+           if ($set['@attributes']['Category'] == 'primary') {
+             $ImageSet = $set;
+           }
+         }
+       }
+     }
+     else {
+       $ImageSet = $ImageSets['ImageSet'];
+     }
+     foreach ($ImageSet as $key => $data) {
       if (in_array($key, $supported_sizes)) {
         $item['imagesets'][strtolower($key)] = array(
           'url' => (string) $data->URL,

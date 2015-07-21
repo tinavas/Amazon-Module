@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * @file amazon_similar.module
+ * Retrieves and stores a list of similar ASIN numbers for each product.
+ */
+
+/**
+ * Implements hook_amazon_response_groups_alter().
+ */
+function amazon_similar_amazon_response_groups_alter(&$groups) {
+  $groups[] = 'Similarities';
+}
+
+/**
+ * Implements hook_amazon_item_clean_xml().
+ */
+function amazon_similar_amazon_item_clean_xml(&$item, $xml) {
+  if (isset($xml->SimilarProducts->SimilarProduct)) {
+    foreach($xml->SimilarProducts->SimilarProduct as $data) {
+      $version = array();
+      $version['asin'] = (string)$data->ASIN;
+      $version['title'] = (string)$data->Title;
+      $item['similarproducts'][] = $version;
+    }
+  }
+}
+
+/**
+ * Implements hook_amazon_item_load().
+ */
+function amazon_similar_amazon_item_load($item) {
+  $alternates = array();
+  $item_ids = array();
+  $result =  db_query("SELECT asin, title FROM {amazon_similar} WHERE item = :item ORDER BY delta ASC", array(':item' => $item['asin']));
+
+  while ($version = $result->fetchAssoc()) {
+    $alternates[] = $version;
+    $item_ids[] = $version['asin'];
+  }
+
+  $additions['similarproducts'] = $alternates;
+  if (isset($additions)) {
+    return $additions;
+  }
+}
+
+/**
+ * Implements hook_amazon_item_insert().
+ */
+function amazon_similar_amazon_item_insert($item) {
+  if (empty($item['similarproducts'])) {
+    return;
+  }
+
+  $delta = 0;
+  foreach ($item['similarproducts'] as $version) {
+    $version['item'] = $item['asin'];
+    $version['delta'] = $delta;
+    drupal_write_record('amazon_similar', $version);
+    $delta++;
+  }
+}
+
+/**
+ * Implements hook_amazon_item_delete().
+ */
+function amazon_similar_amazon_item_delete($asin) {
+  db_query("DELETE FROM {amazon_similar} WHERE item = :item", array(':item' => $asin));
+}

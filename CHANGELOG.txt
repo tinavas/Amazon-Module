@@ -1,0 +1,84 @@
+7.x-1.1
+=======
+[#1468204] by willvincent: Move settings to 'Web Services' category in admin.
+[#1259716] by willvincent: Remove thumbnail image when displaying amazon field with the 'Link to Product' field formatter.
+[#1724082] by e-anima & willvincent: Added support for colon, space, and urlencoded space separators in amazon_filter.
+[#1510816] by likin: Updated query syntax to use colon prefixed placeholders.
+[#1778900] by rfay & wxman: Fixed Inline links getting theme error.
+[#1612118] by rfay: (again) Fixed error when Amazon product image is missing.
+[#1506250] by rfay: Added Spain support (amazon.es) and any other new locales.
+[#1401458] by mikestefff: Fixed Views plugin for product link to 'amazon_store() doesn't use needed constant.
+[#1537816] by rfay: Fixed Failed to insert item into amazon table.
+[#1599044] by Sheldon Rampton: Fixed Missing Amazon Associate tag causes API error.
+
+7.x-1.0
+=======
+[#1321850] by Shawn DeArmond: Improve amazon_search presentation.
+[#1259176] by the_g_bomb: Fix Amazon Price.
+[#1255614] by rfay: Fix 'trying to get property of non-object'
+
+7.x-1.0-rc1
+===========
+[#1239472] by rfay: Remove the option of having an empty associate tag.
+[#1158820] by rfay: hook_requirements cannot use database.
+[#1128032] by shawndearmond: Add ProductGroup to title in Field autocomplete.
+[#1239900] by rfay: Add a UI for devel_generate feature.
+[#1201750] by rfay: Trim Amazon Keys.
+[#1216240] (followup) by rfay: Fixed Remove Theatrical Release Date attribute.
+[#1236890] by rfay: Fixed amazon_item().mpn field not long enough for amazon data on some ASINs.
+[#1216240] by rfay: Fixed Remove Theatrical Release Date attribute.
+[#1140806] by cristinawithout & Shawn DeArmond: Fixed More errors for width, height, and detailpageurl.
+[#983582]  by cristinawithout & rfay: Fixed Can't set participant type in views.
+[#1209370] by cristinawithout: Fix SQL error in all participants.
+[#1087584] by davereid: Prefix asin formatters.
+[#980466]  by rfay: Add Italy and China Amazon API sites.
+[#848990]  by rfay: D7 support for feeds.
+
+7.x-1.0-beta6
+=============
+[#987986]  by dereine: Improve views title handling.
+[#1071902] by rfay: Catch up with Views 3 API changes and fix broken handlers
+[#1125640] by rfay: Add the Amazon Examples feature back in
+[#1127708] by Shawn DeArmond: Fix devel_generate warning
+[#1127886] by Shawn DeArmond: Detailpageurl warning message
+[#1127540] by Shawn DeArmond: Improve autocomplete results
+[#1127644] by Shawn DeArmond: Make devel_generate look for less dups
+[#1079388] by Pancho | zazinteractive: Fixed Mandatory parameters missing in schema definition.
+
+7.x-1.0-beta5
+=============
+[#1014036] by Pancho: First take on token support: Remove non-working code
+[#1060704] by Pancho: Refactor admin test form: error handling, UX and codestyle
+[#1060694] by Pancho: Fix asin.module's error handling
+[#1053340] by Pancho: Cleanup: for variable_del walk thru array instead of preg_split
+[#1053110] by Pancho: Cleanup: add CVS $Ids where missing
+[#1052622] by Pancho: Cleanup *.info-files: remove file registry, add config links
+[#1015260] by rfay: Fix requirements message.
+[#1011280] by rfay: Fix the _field_sql_storage_etid() #fail
+[#1014128] by jdleonard, rfay: Fix invalid conditions in amazon_item_clean_xml()
+[#1037168] by rfay: Fix problem with amazon_media_software_template
+
+7.x-1.0-beta4
+=============
+[#758630] by rfay: Views title should link to Amazon Store.
+[#879830] by rfay: Make amazon price work outside US
+[#801896] by rfay: Editorial content is double-escaped.
+[#944280] by rfay: Fix watchdog PDO fatal
+[#959810] by fragtom, rfay: Fix admin/config menu
+[#971820] by davidzz: Add BOOKS_1973_AND_LATER to types handled by amazon_media
+by rfay: Fixed problem with "all participants" field in views
+[#951070] by davidzz, rfay: Make editorialreview not get key tags stripped out.
+[#905198] by rfay: Update to new Amazon handling of customer reviews
+[#983598] by rfay: Make HTML in Amazon Editorial reviews work
+[#984894] by rfay: Change the type of the edition field
+[#959766] by dereine, rfay: Fix views support of images
+
+
+7.x-1.0-beta3
+=============
+- [#761832] followup: Sorry, I messed up a bunch of tpl.php files.
+
+7.x-1.0-beta2
+=============
+- [#761832] by rfay: D7 theming doesn't work right.
+- [#857616] by rfay: Amazon Media module fails with database prefix turned on.

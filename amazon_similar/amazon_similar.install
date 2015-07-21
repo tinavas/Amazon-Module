@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file amazon_similar.install
+ * Install, update and uninstall functions for Amazon Similar module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function amazon_similar_schema() {
+  $schema['amazon_similar'] = array(
+    'fields' => array(
+      'asin' => array(
+        'type'     => 'varchar',
+        'length'   => 64,
+        'not null' => TRUE,
+        'default'  => '',
+      ),
+      'item' => array(
+        'type'     => 'varchar',
+        'length'   => 64,
+        'not null' => TRUE,
+        'default'  => '',
+      ),
+      'title' => array(
+        'type'     => 'varchar',
+        'length'   => 255,
+        'not null' => TRUE,
+        'default'  => '',
+      ),
+      'delta' => array(
+        'type'     => 'int',
+        'default'  => 0,
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),
+    ),
+    'primary key' => array('asin', 'item'),
+    'indexes' => array(
+      'item' => array('item'),
+    ),
+  );
+
+  return $schema;
+}

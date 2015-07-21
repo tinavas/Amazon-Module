@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file amazon_versions.module
+ * Retrieves and stores a list of alternate ASIN numbers for each product.
+ */
+
+/**
+ * Implements hook_amazon_response_groups_alter().
+ */
+function amazon_versions_amazon_response_groups_alter(&$groups) {
+  $groups[] = 'AlternateVersions';
+}
+
+
+/**
+ * Implements hook_amazon_item_clean_xml().
+ */
+function amazon_versions_amazon_item_clean_xml(&$item, $xml) {
+  if (isset($xml->AlternateVersions->AlternateVersion)) {
+    foreach($xml->AlternateVersions->AlternateVersion as $data) {
+      $version = array();
+      $version['asin'] = (string)$data->ASIN;
+      $version['title'] = (string)$data->Title;
+      $version['binding'] = (string)$data->Binding;
+      $item['alternateversions'][] = $version;
+    }
+  }
+}
+
+/**
+ * Implements hook_amazon_item_load().
+ */
+function amazon_versions_amazon_item_load($item) {
+  $alternates = array();
+  $item_ids = array();
+  $result =  db_query("SELECT asin, title, binding FROM {amazon_versions} WHERE item = :item ORDER BY delta ASC", array(':item' => $item['asin']));
+
+  while ($version = db_fetch_array($result)) {
+    $alternates[] = $version;
+    $item_ids[] = $version['asin'];
+  }
+
+  $additions['alternateversions'] = $alternates;
+  if (isset($additions)) {
+    return $additions;
+  }
+}
+
+/**
+ * Implements hook_amazon_item_insert().
+ */
+function amazon_versions_amazon_item_insert($item) {
+  if (empty($item['alternateversions'])) {
+    return;
+  }
+
+  $delta = 0;
+  foreach ($item['alternateversions'] as $version) {
+    $version['item'] = $item['asin'];
+    $version['delta'] = $delta;
+    drupal_write_record('amazon_versions', $version);
+    $delta++;
+  }
+}
+
+/**
+ * Implements hook_amazon_item_delete().
+ */
+function amazon_versions_amazon_item_delete($asin) {
+  db_query("DELETE FROM {amazon_versions} WHERE item = :item", array(':item' => $asin));
+}
